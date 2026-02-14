@@ -101,8 +101,22 @@ def main() -> None:
 
     # dataset location is relative to data_root, not your machine
     mnist_root = data_root / "raw"
-    train_ds = datasets.MNIST(root=str(mnist_root), train=True, download=True, transform=tfm)
-    test_ds = datasets.MNIST(root=str(mnist_root), train=False, download=True, transform=tfm)
+    from torchvision.datasets import FakeData
+
+    dataset_kind = str(cfg["data"].get("dataset", "mnist")).lower()
+
+    if dataset_kind == "fake":
+        # offline, fast, deterministic-ish smoke runs
+        train_ds = FakeData(size=1024, image_size=(1, 28, 28), num_classes=10, transform=transforms.ToTensor())
+        test_ds  = FakeData(size=256,  image_size=(1, 28, 28), num_classes=10, transform=transforms.ToTensor())
+    else:
+        tfm = transforms.Compose(
+            [transforms.ToTensor(), transforms.Normalize((0.1307,), (0.3081,))]
+        )
+        mnist_root = data_root / "raw"
+        train_ds = datasets.MNIST(root=str(mnist_root), train=True, download=True, transform=tfm)
+        test_ds  = datasets.MNIST(root=str(mnist_root), train=False, download=True, transform=tfm)
+
 
     train_loader = DataLoader(train_ds, batch_size=bs, shuffle=True, num_workers=nw)
     test_loader = DataLoader(test_ds, batch_size=bs, shuffle=False, num_workers=nw)

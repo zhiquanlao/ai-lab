@@ -18,3 +18,9 @@ outputs/
 # OS / editor
 .DS_Store
 .vscode/
+
+# Ignore any nested experiment artifacts too
+**/data/
+**/runs/
+**/wandb/
+**/outputs/

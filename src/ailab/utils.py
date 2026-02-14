@@ -40,7 +40,7 @@ def get_git_sha() -> str:
 
 
 def make_run_dir(base: str | Path, run_name: str) -> Path:
-    base = Path(base)
+    base = Path(base).resolve(strict=False)
     base.mkdir(parents=True, exist_ok=True)
     ts = time.strftime("%Y%m%d-%H%M%S")
     d = base / f"{ts}-{run_name}"

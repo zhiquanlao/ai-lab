@@ -4,3 +4,4 @@ torchaudio
 numpy
 pyyaml
 tqdm
+pytest
