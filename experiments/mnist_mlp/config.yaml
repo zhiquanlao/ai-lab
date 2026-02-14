@@ -1,0 +1,20 @@
+run_name: mnist_mlp
+
+seed: 0
+device: auto
+
+paths:
+  data_root: data
+  run_root: runs
+
+data:
+  batch_size: 128
+  num_workers: 2
+
+model:
+  hidden_dim: 256
+
+train:
+  epochs: 2
+  lr: 1.0e-3
+  weight_decay: 0.0
